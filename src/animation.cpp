@@ -498,6 +498,7 @@ void animation::Dropeffect() {
     int t = 0;
     int R = 15; // random range
     int ran;
+    CRGB color;
     //define random column order
     int randompool[GRID_COLS + 1];
 
@@ -525,6 +526,7 @@ void animation::Dropeffect() {
                 w = Led::getLedId(c + GRID_ROWS * ptr[c]); // Calculate the LED value in the 11 x 11 Matrix
                 
                 if (animation::ledmatrix_old[w] == 1 ){ //&& animation::ledmatrix[w] == 0) { // drop only changed letters
+                    color = Led::ids[w]; //save the present color if rainbow to drop the correct color
                     Led::ids[w].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2); //background color
                     //animation::ledmatrix_old[w] = 0;
                     FastLED.show();
@@ -537,7 +539,8 @@ void animation::Dropeffect() {
                         // Calculate the next LED
                         w = Led::getLedId(c + GRID_ROWS * ptr[c]); 
                         animation::ledmatrix_old[w] = 1;
-                        Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b); 
+                        Led::ids[w] = color; // set the correct color because can be rainbow color
+                        //Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b); 
                         FastLED.show();
                         delay(Config::atime / 2);
                     }
