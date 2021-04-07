@@ -6,7 +6,7 @@ The original has been changed for many addons like
 Add and detecting the use of an RTC module
 Ticker function
 OpenWeatherMap for weather data as ticker
-A new GUI wich allows all configuration
+A new GUI wich allows all configurations
 
 A lot of the additional software parts are from the WWW and have been modified to adoped the WordClock
 6.April 2021
