@@ -86,7 +86,7 @@ void ticker::DisplayTicker(String textIN, int speed, CRGB myColor) {
     strcpy(text, TickerCommand(text).c_str()); //replace variable with data
     int i = 0, ii = 0;
     CRGB color;
-    int StringLength = strlen(text) + 1; // to scroll till end
+    int StringLength = strlen(text) + 2; // to scroll till end
     for (int j = 0; j <= StringLength*6; j++) {
         // shift all pixels to left
         for (int b = 0; b < 10; b++) {
@@ -162,12 +162,28 @@ String ticker::TickerCommand(char* text) {
                 content += String(Time::Day) + "." + Time::MonthName;
                 i++;
             }
+            else if (toupper(text[i + 1]) == 'W') { //WeekDay
+                content += Time::weekDay; 
+                    i++;
+            }
+            else if (toupper(text[i + 1]) == 'J') { //Year
+                content += String(Time::Year);
+                    i++;
+            }
             else if (text[i + 1] == 'h') { //Heart)
                 content += "\x95";
                 i++;
             }
             else if (text[i + 1] == 'H') { //Big Heart)
                 content += "\x96";
+                i++;
+            }
+            else if (text[i + 1] == 'f') { //Heart filled)
+                content += "\x97";
+                i++;
+            }
+            else if (text[i + 1] == 'F') { //Big Heart filled)
+                content += "\x98";
                 i++;
             }
         }

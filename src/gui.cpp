@@ -254,7 +254,7 @@ String Gui::createDND() {
     }
     content += "</select></div></div>";
 
-    content += "<hr><div><label>Ticker String: $D atum</label><input id='ticker' type='text' maxlength='50' value='" + String(Config::ticker) + "'>";
+    content += "<hr><div><label>Ticker String: $D atum $W ochenTag $J ahr $hHfF Herz</label><input id='ticker' type='text' maxlength='50' value='" + String(Config::ticker) + "'>";
     content += "<table><td><label>Ticker Farbe</label></td><td><label>Ticker Geschwindigkeit</label></td><tr>";
     content += "<td><input id='tc' value='#" + Color::rgbToHex(Config::color_tc) + "' type='color'></td>";
     content += "<td><select id='tspeed'>";

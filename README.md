@@ -23,3 +23,7 @@ A lot of the additional software parts are from the WWW and have been modified t
 V2.62 initial commit
 7.April 2021
 V2.63 Drop animation uses the correct color for the old time. (Rainbow animation)
+14.April 2021
+V2.64 Add a filled heart access in ticker with $f $F not filled $h $H
+16.April 2021
+V2.65 Add weekday $W and year $J to ticker. Ticker extended by 1 to pass fully
