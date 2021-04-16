@@ -8,6 +8,7 @@
 
 #define ANI 5 // run animation every x minutes;
 
+
 void Grid_de_DE::setTime(int hour, int minute) {
 	if (hour == -1 || minute == -1) {
 		return;
@@ -195,6 +196,8 @@ void Grid_de_DE::setTime(int hour, int minute) {
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void Grid_de_DE::setDingDong(int dingdong, int r, int g, int b) {
+	int w;
+	CRGB color[] = { CRGB::White, CRGB::Red, CRGB::Green, CRGB::Blue, CRGB::Yellow, CRGB::Orange, CRGB::Indigo, CRGB::Violet };
 	while (dingdong > 0) {
 		//clear all to BG color normaly black
 		for (int i = 0; i < NUM_LEDS; i++) {
@@ -208,7 +211,9 @@ void Grid_de_DE::setDingDong(int dingdong, int r, int g, int b) {
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 12; col++) {
 				if (Grid_de_DE::ding[row][col] >= 0) {
-					Led::ids[Led::getLedId(Grid_de_DE::ding[row][col])].setRGB(r, g, b);
+					//Led::ids[Led::getLedId(Grid_de_DE::ding[row][col])].setRGB(r, g, b);
+					w = Led::getLedId(col + GRID_ROWS * row);
+					Led::ids[w] = color[Grid_de_DE::ding[row][col]];
 				}
 			}
 		}
@@ -234,9 +239,6 @@ void Grid_de_DE::setCube(int dingdong) {
 	int i;
 	CRGB color[] = { CRGB::Red, CRGB::Orange, CRGB::Yellow, CRGB::Green, CRGB::Blue, CRGB::Indigo, CRGB::Violet };
 	while (dingdong > 0) {
-		//unsigned char r;
-		//unsigned char g;
-		//unsigned char b; 
 		//clear all to BG color normaly black
 		animation::ClearDisplay();
 		delay(500);
@@ -245,9 +247,6 @@ void Grid_de_DE::setCube(int dingdong) {
 		//count row 0 to 5 and back to 0
 		for (int row = 0; row >=  0; row += inc) {
 			i = 0;
-			//r = (unsigned char)rand();
-			//g = (unsigned char)rand();
-			//b = (unsigned char)rand();
 			if (row == 5) //reverse loop
 				inc = -1;
 			while(Grid_de_DE::cube[row][i] >= 0) {
@@ -369,9 +368,28 @@ int Grid_de_DE::time_hours_alt[12][6] = {
   { 93,  94,  95,  96,  -1,  -1}, // zehn
   { 77,  78,  79,  -1,  -1,  -1}  // elf
 };
-
+////////////////////////////////////
+// BELL
+// 1=RED
+// 2=GREEN
+// 3=BLUE
+// 4=YELLOW
 int Grid_de_DE::ding[11][12] = {
-  {-1, -1, -1,  -1,  -1,  5,  -1,  -1,  -1,  -1,  -1,  -1}, 
+  {-1, -1, -1,  -1,  -1,   2,  -1,  -1,  -1,  -1,  -1,  -1}, 
+  {-1, -1, -1,  -1,   2,   2,   2,  -1,  -1,  -1,  -1,  -1},
+  {-1, -1, -1,   2,   4,   4,   4,   2,  -1,  -1,  -1,  -1},
+  {-1, -1, -1,   2,   4,   4,   4,   2,  -1,  -1,  -1,  -1},
+  {-1, -1, -1,   2,   4,   4,   4,   2,  -1,  -1,  -1,  -1},
+  {-1, -1,  2,   4,   4,   4,   4,   4,   2,  -1,  -1,  -1},
+  {-1,  2,  2,   2,   2,   2,   2,   2,   2,   2,  -1,  -1},
+  {-1,  2,  2,   2,   2,   2,   2,   2,   2,   2,  -1,  -1},
+  {-1, -1, -1,   2,   2,   2,   2,   2,  -1,  -1,  -1,  -1},
+  {-1, -1, -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+  {-1, -1, -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1}
+};
+/*
+int Grid_de_DE::ding[11][12] = {
+  {-1, -1, -1,  -1,  -1,  5,  -1,  -1,  -1,  -1,  -1,  -1},
   {-1, -1, -1,  -1,  15,  16,  17,  -1,  -1,  -1,  -1,  -1},
   {-1, -1, -1,  25,  -1,  -1,  -1,  29,  -1,  -1,  -1,  -1},
   {-1, -1, -1,  36,  -1,  -1,  -1,  40,  -1,  -1,  -1,  -1},
@@ -383,7 +401,7 @@ int Grid_de_DE::ding[11][12] = {
   {-1, -1, -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
   {-1, -1, -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1}
 };
-
+*/
 int Grid_de_DE::cube[6][41] = {
 	{60,-1},
 	{48,49,50,59,61,70,71,72,-1},
