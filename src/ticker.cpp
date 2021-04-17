@@ -134,9 +134,10 @@ void ticker::Utf8Filter(char* text) {
     int i = 0;
     int j = 0;
     while (text[i] != 0) {
-        if (text[i] <= 127)
+        if ((unsigned char) text[i] <= 127)
         {
-            ++i;
+            text[j] = text[i];
+            i++;
         }
         else
         {
@@ -147,7 +148,8 @@ void ticker::Utf8Filter(char* text) {
         }
         j++;
     }
-    text[j] = 0;
+    text[j] = 0x00;
+    text[j+1] = 0x00; //two additional scrolls in ticker
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------
  * Ticker variable parser and replace var with content
