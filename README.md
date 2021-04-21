@@ -28,4 +28,5 @@ V2.64 Add a filled heart access in ticker with $f $F not filled $h $H
 16.April 2021
 V2.65 Add weekday $W and year $J to ticker. Ticker extended by 1 to pass fully
 V2.66 Bell in colors
-
+17.April 2021
+V2.67 Fix utf8 conversion text shifting
