@@ -16,8 +16,7 @@ String weather::Country = "";
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 String weather::GetWeather() {
-    static int lastupdate = 0;
-    static int presentupdate = 0;
+        
     String content;
     String lat = "48";
     String lon = "7";
@@ -26,25 +25,15 @@ String weather::GetWeather() {
     String serverPath = "http://api.openweathermap.org/data/2.5/weather?lat=" + Config::lat + "&lon=" + Config::lon + "&units=metric&APPID=" + Config::apikey;
    
     String jsonBuffer;
-    static String jsonBufferold =  ""; // backup in case empty return use old
 
     StaticJsonDocument<1280> doc;
     jsonBuffer = httpGETRequest(serverPath.c_str());
     #ifdef DEBUG
         Serial.println(serverPath);
     #endif
-        if (jsonBuffer == "{}" && jsonBufferold != "") { //no data from opwenweather server
-            if (presentupdate - lastupdate < 600) { //do only if less than 10 minutes no update
-                jsonBuffer = jsonBufferold;
+    if (jsonBuffer == "{}")  //no data from opwenweather server
+        return "NA";
 
-            }
-            else
-                return "NA";
-        }
-        else {
-            jsonBufferold = jsonBuffer;
-            lastupdate = presentupdate;
-        }
     deserializeJson(doc, jsonBuffer);
     #ifdef DEBUG
         Serial.print("JSON object = ");
@@ -54,7 +43,7 @@ String weather::GetWeather() {
     weather::temperature = doc["main"]["temp"];
     weather::City = doc["name"].as<String>();
     weather::Country = doc["sys"]["country"].as<String>();
-    presentupdate = doc["dt"]; //UTC time from openweather
+
     char command[50];
     for (int i = 0; i < 50; i++) //initialize command buffer
         command[i] = 0;

@@ -127,15 +127,13 @@ void animation::ledtest() {
 * *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::animation_select(int ticker) {
-    String WeatherString;
     switch (ticker) {
         case WEATHER:
             if (Config::WX == 0)//if disabled
                 return;
-            WeatherString = weather::GetWeather(); //continue to display time till a response from OpenWeatherMap
             animation::ClearDisplay();
             weather::SetGrad(true);//Switch GRAD on
-            ticker::DisplayTicker(WeatherString, Config::tspeed, weather::GetTempColor(weather::temperature));
+            ticker::DisplayTicker(String(weather::GetWeather()), Config::tspeed, weather::GetTempColor(weather::temperature));
             weather::SetGrad(false);
             if(animation::MovinRainbowSet != true) {
                 animation::SetDisplay();
@@ -149,8 +147,6 @@ void animation::animation_select(int ticker) {
             ticker::DisplayTicker(String(Config::ticker), Config::tspeed, CRGB(Config::color_tc.r, Config::color_tc.g, Config::color_tc.b));
             if (animation::MovinRainbowSet != true) {
                 animation::SetDisplay();
-                FastLED.show();
-                delay(1000);
             }
             return;
             break;

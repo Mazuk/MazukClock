@@ -28,10 +28,4 @@ V2.64 Add a filled heart access in ticker with $f $F not filled $h $H
 16.April 2021
 V2.65 Add weekday $W and year $J to ticker. Ticker extended by 1 to pass fully
 V2.66 Bell in colors
-17.April 2021
-V2.67 Fix utf8 conversion text shifting
-18.April 2021
-V2.68 In case of no data from open Weather just display the last successful received data
-20.April 2021
-V2.69 Changed order of displaying the weather ticker. Wait first for the response from OpenWeatherMap before clearing the display
-V2.70 Weather update in case of no response use old data only if not older than 10 min / 600sec
+
