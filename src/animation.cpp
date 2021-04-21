@@ -41,7 +41,7 @@ int animation::matrix[11][11] = {
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::setup() {
-   
+
     for (int i = 0; i < NUM_LEDS; i++) {
         Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
         animation::ledmatrix[i] = 0;
@@ -54,9 +54,9 @@ void animation::setup() {
  * Powerup sequence for unit
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
-void animation::ledtest() { 
+void animation::ledtest() {
     FastLED.setBrightness(Config::brightness * 255);
-  // Flash LED to show different color
+    // Flash LED to show different color
     for (int x = 0; x < NUM_LEDS; x++) {
         Led::ids[x] = CRGB::Blue;
     }
@@ -88,7 +88,7 @@ void animation::ledtest() {
     delay(300);
     unsigned long  now = millis();
     unsigned long  lastTime = now;
-   
+
     while (now - lastTime < 2000) {
         RainbowWave(100, 10);
         FastLED.show();
@@ -121,42 +121,46 @@ void animation::ledtest() {
 * 7 Buchstaben falles runter
 * 8 langsames überbelden der Uhrzeit änderung
 * 9 BuchstabenLotto random showing all only selected stay
-* 10 Moving Rainbow letters 
+* 10 Moving Rainbow letters
 * 11 Snake animation eating the old time and shit the new
 * 12 Demo Mode zufällige Uhrzeit alles2sec eine Minute
 * *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::animation_select(int ticker) {
+    String WeatherString;
     switch (ticker) {
-        case WEATHER:
-            if (Config::WX == 0)//if disabled
-                return;
-            animation::ClearDisplay();
-            weather::SetGrad(true);//Switch GRAD on
-            ticker::DisplayTicker(String(weather::GetWeather()), Config::tspeed, weather::GetTempColor(weather::temperature));
-            weather::SetGrad(false);
-            if(animation::MovinRainbowSet != true) {
-                animation::SetDisplay();
-            }
+    case WEATHER:
+        if (Config::WX == 0)//if disabled
             return;
-            break;
-        case TICKER:
-            if (Config::tu == 0)//if disabled
-                return;
-            animation::ClearDisplay();
-            ticker::DisplayTicker(String(Config::ticker), Config::tspeed, CRGB(Config::color_tc.r, Config::color_tc.g, Config::color_tc.b));
-            if (animation::MovinRainbowSet != true) {
-                animation::SetDisplay();
-            }
+        WeatherString = weather::GetWeather(); //continue to display time till a response from OpenWeatherMap
+        animation::ClearDisplay();
+        weather::SetGrad(true);//Switch GRAD on
+        ticker::DisplayTicker(WeatherString, Config::tspeed, weather::GetTempColor(weather::temperature));
+        weather::SetGrad(false);
+        if (animation::MovinRainbowSet != true) {
+            animation::SetDisplay();
+        }
+        return;
+        break;
+    case TICKER:
+        if (Config::tu == 0)//if disabled
             return;
-            break;
+        animation::ClearDisplay();
+        ticker::DisplayTicker(String(Config::ticker), Config::tspeed, CRGB(Config::color_tc.r, Config::color_tc.g, Config::color_tc.b));
+        if (animation::MovinRainbowSet != true) {
+            animation::SetDisplay();
+            FastLED.show();
+            delay(1000);
+        }
+        return;
+        break;
     }
 
     int ani = 0;
     int length;
 
     length = Config::animation[LENGTH];
-    
+
     if (length > 0) {
         if (Config::animation_set != DEMO)
             length += 1;
@@ -164,46 +168,46 @@ void animation::animation_select(int ticker) {
     }
     animation::MovinRainbowSet = false;
     switch (Config::animation[ani]) {
-        case 1:
-            //Matrixeffect(); //old Matrix style
-            Matrixeffect2();
-            break;
-        case 2:
-            RainbowDisplay();
-            break;
-        case 3:
-            CircleDisplay(1); //Cycle IN
-            break;
-        case 4:
-            CircleDisplay(0); //Cyle OUT
-            break;
-        case 5:
-            RainDisplay();
-            break;
-        case 6:
-            TypeWriter();
-            break;
-        case 7:
-            Dropeffect();
-            break;
-        case 8:
-            Fadeeffect();
-            break;
-        case 9:
-            RandomLetters();
-            break;
-        case 10:
-            animation::MovinRainbowSet = true;
-            MovingRainbow();
-            break;
-        case 11:
-            Snake::StartSnake();
-            break;
-        case DEMO:
-            //DemoMode;
-            break;
-        default:
-            CircleDisplay(1);
+    case 1:
+        //Matrixeffect(); //old Matrix style
+        Matrixeffect2();
+        break;
+    case 2:
+        RainbowDisplay();
+        break;
+    case 3:
+        CircleDisplay(1); //Cycle IN
+        break;
+    case 4:
+        CircleDisplay(0); //Cyle OUT
+        break;
+    case 5:
+        RainDisplay();
+        break;
+    case 6:
+        TypeWriter();
+        break;
+    case 7:
+        Dropeffect();
+        break;
+    case 8:
+        Fadeeffect();
+        break;
+    case 9:
+        RandomLetters();
+        break;
+    case 10:
+        animation::MovinRainbowSet = true;
+        MovingRainbow();
+        break;
+    case 11:
+        Snake::StartSnake();
+        break;
+    case DEMO:
+        //DemoMode;
+        break;
+    default:
+        CircleDisplay(1);
     }
 
 
@@ -222,14 +226,14 @@ void animation::loop() {
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to out
-   
-    char LED[] = {60,49,50,61,72,71,70,59,48,37,38,39,40,51,62,73,84,83,82,81,80,69,58,47,36,25,26,27,28,29,30,41,52,63,74,85,96,95,94,93,92,91,90,79,68,57,46,35,24,13,14,15,16,17,18,19,20,
+
+    char LED[] = { 60,49,50,61,72,71,70,59,48,37,38,39,40,51,62,73,84,83,82,81,80,69,58,47,36,25,26,27,28,29,30,41,52,63,74,85,96,95,94,93,92,91,90,79,68,57,46,35,24,13,14,15,16,17,18,19,20,
     31,42,53,64,75,86,97,108,107,106,105,104,103,102,101,100,89,78,67,56,45,34,23,12,1,2,3,4,5,6,7,8,9,10,21,32,43,54,65,76,87,98,109,120,119,118,117,116,115,114,113,112,111,110,99,88,77,66,55,44,33,22,11,0 };
     CRGB color[] = { CRGB::Red, CRGB::Orange, CRGB::Yellow, CRGB::Green, CRGB::Blue, CRGB::Indigo, CRGB::Violet };
     char idx;
     int j;
     int fade = 256 - (Config::atime * 2);
-    for (int i=0; i < NUM_LEDS; i++) {
+    for (int i = 0; i < NUM_LEDS; i++) {
         if (dir) {
             idx = LED[i];
         }
@@ -244,8 +248,8 @@ void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to o
                     Led::ids[Led::getLedId(LED[j])].fadeToBlackBy(fade);
             }
             else {
-                if (animation::ledmatrix[Led::getLedId(LED[NUM_LEDS - j - 1 ])] == 0 )
-                    Led::ids[Led::getLedId(LED[NUM_LEDS - j - 1 ])].fadeToBlackBy(fade);
+                if (animation::ledmatrix[Led::getLedId(LED[NUM_LEDS - j - 1])] == 0)
+                    Led::ids[Led::getLedId(LED[NUM_LEDS - j - 1])].fadeToBlackBy(fade);
             }
         }
 
@@ -258,33 +262,33 @@ void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to o
         FastLED.show();
         delay(5);
     }
-    
+
     //fade all out after reaching the end
-    for (int k = 0; k < Config::atime / 5; k++) {       
+    for (int k = 0; k < Config::atime / 5; k++) {
         for (int j = 0; j < NUM_LEDS; j++) {
             if (dir) {
                 if (animation::ledmatrix[Led::getLedId(LED[j])] == 0)
                     Led::ids[Led::getLedId(LED[j])].fadeToBlackBy(fade);
-            } 
+            }
             else
             {
                 if (animation::ledmatrix[Led::getLedId(LED[NUM_LEDS - j - 1])] == 0)
                     Led::ids[Led::getLedId(LED[NUM_LEDS - j - 1])].fadeToBlackBy(fade);
             }
-        }       
+        }
         FastLED.show();
-        delay(Config::atime/3);
+        delay(Config::atime / 3);
     }
-    
+
     SetDisplay(); //needed in case different background color
     delay(200);
 }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------
- * Matrix effect 
+ * Matrix effect
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
-void animation::Matrixeffect() { 
+void animation::Matrixeffect() {
     int T30 = Config::atime - 30;
     if (T30 < 0)
         T30 = 5;
@@ -295,22 +299,22 @@ void animation::Matrixeffect() {
     int dly1[GRID_COLS] = { random(20), random(20), random(20), random(20), random(20), random(20), random(20), random(20), random(20), random(20), random(20) };
     int ptr[GRID_COLS] = { 0,0,0,0,0,0,0,0,0,0,0 }; // Points to the LED in each column we need to deal with
 
-    for (int t = 0; t < Config::mlength*20; t++) { // Counter for completing all changes for 11 rows
+    for (int t = 0; t < Config::mlength * 20; t++) { // Counter for completing all changes for 11 rows
 
         for (int c = 0; c < GRID_COLS; c++) { // Count through columns and check timer not exceeded
-            if ((t > (dly1[c] * (ptr[c]+1))) && ptr[c] < GRID_ROWS  ) { // If timer exceeded then erase current value and draw a white curosr in this position based on random time period     
+            if ((t > (dly1[c] * (ptr[c] + 1))) && ptr[c] < GRID_ROWS) { // If timer exceeded then erase current value and draw a white curosr in this position based on random time period     
                 // Write over the previous value
                 // Calculate the LED value from the Column and ptr value
                 w = Led::getLedId(c + GRID_ROWS * ptr[c]); // Calculate the LED value in the 11 x 11 Matrix
 
-                if (animation::ledmatrix[w] == 1){ // If the bit set in LED Matrix then leave FG color
+                if (animation::ledmatrix[w] == 1) { // If the bit set in LED Matrix then leave FG color
                     Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b); //foreground color
                 }
                 else {
                     Led::ids[w].setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b); //matrix color
                 }
                 ptr[c]++; // Increment row and print White value    
-                if (ptr[c] < GRID_ROWS ) {
+                if (ptr[c] < GRID_ROWS) {
                     // Calculate the LED value from the Column and ptr value for leading white letter
                     w = Led::getLedId(c + GRID_ROWS * ptr[c]); // Calculate the LED value in the 11 x 11 Matrix
                     Led::ids[w].setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b); //matrix color  
@@ -320,46 +324,46 @@ void animation::Matrixeffect() {
             }
         }
     }
-    
+
     // Now clear the screen
     int ptr2[GRID_COLS] = { 0,0,0,0,0,0,0,0,0,0,0 }; // Points to the LED in each column we need to deal with
 
     for (int t = 0; t < Config::mlength * 20; t++) { // Counter for completing all changes for 10 rows
         for (int c = 0; c < GRID_COLS; c++) { // Count through columns and check timer not exceeded
-            if ((t > (dly1[c] * (ptr2[c] + 1))) && ptr2[c] < GRID_ROWS ) { // If timer exceeded then erase current value and draw a white curosr in this position based on random time period     
+            if ((t > (dly1[c] * (ptr2[c] + 1))) && ptr2[c] < GRID_ROWS) { // If timer exceeded then erase current value and draw a white curosr in this position based on random time period     
                 // Write over the previous value
                 // Calculate the LED value from the Column and ptr value
                 w = Led::getLedId(c + GRID_ROWS * ptr2[c]); // Calculate the LED value in the 11 x 11 Matrix
 
-                if (animation::ledmatrix[w] == 1){ // If the bit set in LED Matrix then leave FG color
+                if (animation::ledmatrix[w] == 1) { // If the bit set in LED Matrix then leave FG color
                     Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
                 }
                 else {
                     Led::ids[w].setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b); // matrix color
                     usedMatrix[x++] = w; //for fade out only the matrix leds
                 }
-               
+
                 ptr2[c]++; // Increment row and print White value    
-                if (ptr2[c] < GRID_ROWS ) {
+                if (ptr2[c] < GRID_ROWS) {
                     // Calculate the LED value from the Column and ptr value
                     w = Led::getLedId(c + GRID_ROWS * ptr2[c]); // Calculate the LED value in the 11 x 11 Matrix
                     Led::ids[w].setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b); // matrix color                  
                 }
                 FastLED.show();
-                delay(T30);    
+                delay(T30);
             }
         }
         //fade to black all used matrix LEDs
         for (int k = 0; k < x; k++) {
             Led::ids[usedMatrix[k]].fadeToBlackBy(80);
-        }  
-    } 
+        }
+    }
     SetDisplay(); //needed in case different background color
 }
 
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------
- * Matrix2 more realistic effect 
+ * Matrix2 more realistic effect
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::Matrixeffect2() {
@@ -457,20 +461,20 @@ void animation::Fadeeffect() {
             if (animation::ledmatrix_old[idx] != animation::ledmatrix[idx]) { // do fade only on different selections
                 //select the right color also for the minute fade out
                 switch (idx) {
-                    case 2:
-                        Led::ids[idx].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
-                        break;
-                    case 4:
-                        Led::ids[idx].setRGB(Config::color_m2.r, Config::color_m2.g, Config::color_m2.b);
-                        break;
-                    case 6:
-                        Led::ids[idx].setRGB(Config::color_m3.r, Config::color_m3.g, Config::color_m3.b);
-                        break;
-                    case 8:
-                        Led::ids[idx].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
-                        break;
-                    default:
-                        Led::ids[idx].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
+                case 2:
+                    Led::ids[idx].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
+                    break;
+                case 4:
+                    Led::ids[idx].setRGB(Config::color_m2.r, Config::color_m2.g, Config::color_m2.b);
+                    break;
+                case 6:
+                    Led::ids[idx].setRGB(Config::color_m3.r, Config::color_m3.g, Config::color_m3.b);
+                    break;
+                case 8:
+                    Led::ids[idx].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+                    break;
+                default:
+                    Led::ids[idx].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
                 }
                 //fade old out
                 if (animation::ledmatrix_old[idx] == 1) {
@@ -478,9 +482,9 @@ void animation::Fadeeffect() {
                 }
                 //fade new in
                 if (animation::ledmatrix[idx] == 1) {
-                    Led::ids[idx].nscale8_video(i*i/255);// none linear, slower fade in
+                    Led::ids[idx].nscale8_video(i * i / 255);// none linear, slower fade in
                 }
-            }     
+            }
         }
         FastLED.show();
         delay(10);
@@ -493,7 +497,7 @@ void animation::Fadeeffect() {
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::Dropeffect() {
-    
+
     int w = 0; // calculated LED ID variable
     int t = 0;
     int R = 15; // random range
@@ -507,25 +511,25 @@ void animation::Dropeffect() {
     int dly[GRID_COLS] = { (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R), (char)random(R) };
     int ptr[GRID_COLS] = { 0,0,0,0,0,0,0,0,0,0,0 }; // Points to the LED in each column we need to deal with
 
-    for (t = 0; t < (R*11); t++) { // Counter for completing all changes
+    for (t = 0; t < (R * 11); t++) { // Counter for completing all changes
         //fill column pool 
         for (int i = 0; i <= GRID_COLS; i++) {
             randompool[i] = i;
         }
-        for (int r = (GRID_COLS-1); r >= 0; r--) { // Count through columns and check timer not exceeded
+        for (int r = (GRID_COLS - 1); r >= 0; r--) { // Count through columns and check timer not exceeded
             //generate a random column number
-            ran = rand() % (r+1);
+            ran = rand() % (r + 1);
             int c = randompool[ran];
             for (int i = ran; i < r; ++i) {
                 randompool[i] = randompool[i + 1];
             }
-           
+
             if ((t > (dly[c] * (ptr[c] + 1))) && ptr[c] < GRID_ROWS) { // If timer exceeded then erase current value and draw a white curosr in this position based on random time period     
                 // Write over the previous value
                 // Calculate the LED value from the Column and ptr value
                 w = Led::getLedId(c + GRID_ROWS * ptr[c]); // Calculate the LED value in the 11 x 11 Matrix
-                
-                if (animation::ledmatrix_old[w] == 1 ){ //&& animation::ledmatrix[w] == 0) { // drop only changed letters
+
+                if (animation::ledmatrix_old[w] == 1) { //&& animation::ledmatrix[w] == 0) { // drop only changed letters
                     color = Led::ids[w]; //save the present color if rainbow to drop the correct color
                     Led::ids[w].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2); //background color
                     //animation::ledmatrix_old[w] = 0;
@@ -534,17 +538,17 @@ void animation::Dropeffect() {
                 }
                 ptr[c]++; // Increment row and print FG color value      
                 if (ptr[c] < GRID_ROWS) {
-                    if (animation::ledmatrix_old[w] == 1 ){ //&& animation::ledmatrix[w] == 0) {
+                    if (animation::ledmatrix_old[w] == 1) { //&& animation::ledmatrix[w] == 0) {
                         animation::ledmatrix_old[w] = 0;
                         // Calculate the next LED
-                        w = Led::getLedId(c + GRID_ROWS * ptr[c]); 
+                        w = Led::getLedId(c + GRID_ROWS * ptr[c]);
                         animation::ledmatrix_old[w] = 1;
                         Led::ids[w] = color; // set the correct color because can be rainbow color
                         //Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b); 
                         FastLED.show();
                         delay(Config::atime / 2);
                     }
-                }  
+                }
             }
         }
     }
@@ -558,12 +562,12 @@ void animation::Dropeffect() {
     for (int r = 10; r >= 0; r--) {
         for (byte c = 0; c < GRID_COLS; c++) {
             w = Led::getLedId(c + GRID_ROWS * r);
-            if (animation::ledmatrix[w] == 1  && ptrLOWEST[c] < r) {//do only if so far now lowest row found && animation::ledmatrix_old[w] == 0
+            if (animation::ledmatrix[w] == 1 && ptrLOWEST[c] < r) {//do only if so far now lowest row found && animation::ledmatrix_old[w] == 0
                 ptrLOWEST[c] = r;
             }
         }
     }
-    for (byte t = 0; t < (R*11); t++) { // Counter for completing all changes 
+    for (byte t = 0; t < (R * 11); t++) { // Counter for completing all changes 
         //fill column pool 
         for (int i = 0; i <= GRID_COLS; i++) {
             randompool[i] = i;
@@ -580,11 +584,11 @@ void animation::Dropeffect() {
                 // Write over the previous value
                 // Calculate the LED value from the Column and ptr value
                 w = Led::getLedId(c + GRID_ROWS * ptr2[c]); // Calculate the LED value in the 11 x 11 Matrix
-                if (ptr2[c] <= ptrLOWEST[c] ) {// animation::ledmatrix[w] == 1) { // If the bit set in LED Matrix then leave White
+                if (ptr2[c] <= ptrLOWEST[c]) {// animation::ledmatrix[w] == 1) { // If the bit set in LED Matrix then leave White
                     Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b); //foreground color
                     FastLED.show();
                     delay(Config::atime / 2);
-                    if (animation::ledmatrix[w] == 0) 
+                    if (animation::ledmatrix[w] == 0)
                         Led::ids[w].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2); //background color
                     FastLED.show();
                     delay(Config::atime / 2);
@@ -592,7 +596,7 @@ void animation::Dropeffect() {
 
                 ptr2[c]++; // Increment row and print FG color value  
                 w = Led::getLedId(c + GRID_ROWS * ptr2[c]);
-                if (ptr2[c] <= ptrLOWEST[c]) { 
+                if (ptr2[c] <= ptrLOWEST[c]) {
                     Led::ids[w].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
                     FastLED.show();
                     delay(Config::atime / 2);
@@ -608,7 +612,7 @@ void animation::Dropeffect() {
 }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------
- * Letters in rainbow colors 
+ * Letters in rainbow colors
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::RainbowDisplay() { // Step through each location in the Matrix Display Array Data in LED Matrix
@@ -650,9 +654,9 @@ void animation::RainbowDisplay() { // Step through each location in the Matrix D
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::MovingRainbow() { // Step through each location in the Matrix Display Array Data in LED Matrix
-  
+
     int deltahue = 110 - Config::atime;
-    int speed = 60 - (Config::atime/2);
+    int speed = 60 - (Config::atime / 2);
     int initialhue = beat8(speed, 255);
     CHSV hsv;
     hsv.hue = initialhue;
@@ -662,7 +666,8 @@ void animation::MovingRainbow() { // Step through each location in the Matrix Di
         if (animation::ledmatrix[i] == 1) {
             Led::ids[i] = hsv;
             hsv.hue += deltahue;
-        } else
+        }
+        else
             Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2); //background color
     }
 }
@@ -674,7 +679,7 @@ void animation::MovingRainbow() { // Step through each location in the Matrix Di
  */
 void animation::RainDisplay() { // Step through each location in the Matrix Display Array Data in LED Matrix
     byte w = 0; // temp variable
-    
+
     // Generate random delay speeds for each falling charater in columns
     byte dly1[GRID_COLS] = { (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5), (char)random(5) };
     byte ptr[GRID_COLS] = { 0,0,0,0,0,0,0,0,0,0,0 }; // Points to the LED in each column we need to deal with
@@ -722,14 +727,14 @@ void animation::RainDisplay() { // Step through each location in the Matrix Disp
                 FastLED.show();
                 delay(5);
                 ptr2[c]++; // Increment row and print White value    
-                
-                if (ptr2[c] < GRID_ROWS ) {
+
+                if (ptr2[c] < GRID_ROWS) {
                     // Calculate the LED value from the Column and ptr value
                     w = Led::getLedId(c + GRID_ROWS * ptr2[c]); // Calculate the LED value in the 11 x 11 Matrix
-                    Led::ids[w]=  CRGB::Blue; //setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b); // matrix color
+                    Led::ids[w] = CRGB::Blue; //setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b); // matrix color
                 }
                 FastLED.show();
-                delay(5);   
+                delay(5);
             }
         }
     }
@@ -741,7 +746,7 @@ void animation::RainDisplay() { // Step through each location in the Matrix Disp
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::TypeWriter() { // Step through each location in the Matrix Display Array Data in LED Matrix
-    
+
     for (int l = 0; l < NUM_LEDS; l++) {
         Led::ids[Led::getLedId(l)] = CRGB::Blue;
         FastLED.show();
@@ -754,13 +759,13 @@ void animation::TypeWriter() { // Step through each location in the Matrix Displ
             Led::ids[Led::getLedId(l)].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
             FastLED.show();
             delay(Config::atime);
-        }  
+        }
     }
     delay(500);
 }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------
- * randomly placed letters. Only used will stay others disappier 
+ * randomly placed letters. Only used will stay others disappier
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void animation::RandomLetters() {
@@ -771,19 +776,19 @@ void animation::RandomLetters() {
     int usedPool[NUM_LEDS];
     byte idx;
     int i;
-    int l=0;
+    int l = 0;
     int ran;
-    
+
     //define pool
     for (i = 0; i < NUM_LEDS; i++) {
         randompool[i] = i;
     }
     randompool[NUM_LEDS] = -1; //define end of array
-    
+
     //now loop all LEDs
     for (i = 0; i < NUM_LEDS; i++) {
         //get one LED position
-        ran = random(NUM_LEDS - i );
+        ran = random(NUM_LEDS - i);
         idx = randompool[ran];
         Led::ids[idx].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b); // select this LED
         //Led::ids[idx] = color[i % 8];
@@ -794,17 +799,17 @@ void animation::RandomLetters() {
             //fade slowly out the none selected
             for (int k = 0; k < l; k++) {
                 Led::ids[usedPool[k]].fadeToBlackBy(128);
-            } 
-            FastLED.show();       
+            }
+            FastLED.show();
         }
         delay(5);//prevent flickering
         //remove the found random number from pool
         int j = ran;
         while (randompool[j] != -1) {
-            randompool[j] = randompool[j+1];
+            randompool[j] = randompool[j + 1];
             j++;
-        } 
-        randompool[j-1] = -1; //new end
+        }
+        randompool[j - 1] = -1; //new end
     }
     //fade all out after reaching the end
     for (int j = 0; j < 10; j++) {
@@ -834,7 +839,7 @@ void animation::SetMatrixOFF() {
 void animation::EraseMinutes() {
     //delete last minute row
     for (int i = 0; i < GRID_COLS; i++) {
-        Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);  
+        Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
         animation::ledmatrix[i] = 0;
     }
 }
@@ -854,14 +859,15 @@ void animation::SetDisplay() {
         if (animation::ledmatrix[i] == 1) {
             Led::ids[i].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
 
-        }else
+        }
+        else
             Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
     }
 }
 
 //generate the color changes for each LED in moving Rainbow
 void animation::RainbowWave(int thisSpeed, int deltaHue) {  // The fill_rainbow call doesn't support brightness levels.
-    int thisHue = beatsin8(thisSpeed,0,255);                // A simple rainbow wave.
+    int thisHue = beatsin8(thisSpeed, 0, 255);                // A simple rainbow wave.
    // int thisHue = beat8(thisSpeed, 255);                  // A simple rainbow march.
     fill_rainbow(Led::ids, NUM_LEDS, thisHue, deltaHue);    // Use FastLED's fill_rainbow routine.
 }
