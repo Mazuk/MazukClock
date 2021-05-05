@@ -35,3 +35,5 @@ V2.68 In case of no data from open Weather just display the last successful rece
 20.April 2021
 V2.69 Changed order of displaying the weather ticker. Wait first for the response from OpenWeatherMap before clearing the display
 V2.70 Weather update in case of no response use old data only if not older than 10 min / 600sec
+23.April 2021
+V2.71 Bug fix in end of day countdown

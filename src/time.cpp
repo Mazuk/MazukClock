@@ -118,16 +118,17 @@ void Time::loop() {
     //Count down at each day end
     if (m == 59 && h == 23 && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
         ticker::Numbers(60 - s);
-    }else
-    //blink the last 5 sec the minute 4 led before changing time
-    if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
-        if(s % 2 == 0)
-            Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
-        else
-            Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
-        Time::second = s;
-        FastLED.show();
+    }
+    else {//blink the last 5 sec the minute 4 led before changing time
+        if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
+            if (s % 2 == 0)
+                Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
+            else
+                Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+            Time::second = s;
+            FastLED.show();
 
+        }
     }
 
   if((m != Time::minute) || animation::test_start) {
