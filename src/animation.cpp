@@ -838,6 +838,8 @@ void animation::SetMatrixOFF() {
 //clear the last row / minutes LEDs
 void animation::EraseMinutes() {
     //delete last minute row
+    if (GRID_SINGLE_MINUTES > 0)
+        return;
     for (int i = 0; i < GRID_COLS; i++) {
         Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
         animation::ledmatrix[i] = 0;

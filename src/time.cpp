@@ -118,16 +118,17 @@ void Time::loop() {
     //Count down at each day end
     if (m == 59 && h == 23 && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
         ticker::Numbers(60 - s);
-    }else
-    //blink the last 5 sec the minute 4 led before changing time
-    if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
-        if(s % 2 == 0)
-            Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
-        else
-            Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
-        Time::second = s;
-        FastLED.show();
+    }
+    else {//blink the last 5 sec the minute 4 led before changing time
+        if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
+            if (s % 2 == 0)
+                Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
+            else
+                Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+            Time::second = s;
+            FastLED.show();
 
+        }
     }
 
   if((m != Time::minute) || animation::test_start) {
@@ -141,32 +142,33 @@ void Time::loop() {
             rtc.adjust(DateTime(Time::ntpClient.getEpochTime()));
             Serial.print("RTC Sync Time: ");
             DateTime now = rtc.now();
-            Serial.print(now.hour(),DEC);
+            Serial.print(now.hour(), DEC);
             Serial.print(':');
-            Serial.print(now.minute(),DEC);
+            Serial.print(now.minute(), DEC);
             Serial.print(':');
-            Serial.print(now.second(),DEC);
+            Serial.print(now.second(), DEC);
             Serial.println();
-            //Get a time structure
-            Time::weekDay = weekDays[Time::ntpClient.getDay()];
-            struct tm* ptm = gmtime((time_t*)&epochTime);
-
-            Time::Day = ptm->tm_mday;
-            //Serial.print("Month day: ");
-            Serial.print(Time::Day);
-            Serial.print(". ");
-            Time::Month = ptm->tm_mon + 1;
-            //Serial.print("Month: ");
-            //Serial.println(currentMonth);
-
-            Time::MonthName = months[Month - 1];
-            //Serial.print("Month name: ");
-            Serial.print(Time::MonthName);
-            Serial.print(" ");
-            Time::Year = ptm->tm_year + 1900;
-            //Serial.print("Year: ");
-            Serial.println(Time::Year);
         }
+        //Get a time structure
+        Time::weekDay = weekDays[Time::ntpClient.getDay()];
+        struct tm* ptm = gmtime((time_t*)&epochTime);
+
+        Time::Day = ptm->tm_mday;
+        //Serial.print("Month day: ");
+        Serial.print(Time::Day);
+        Serial.print(". ");
+        Time::Month = ptm->tm_mon + 1;
+        //Serial.print("Month: ");
+        //Serial.println(currentMonth);
+
+        Time::MonthName = months[Month - 1];
+        //Serial.print("Month name: ");
+        Serial.print(Time::MonthName);
+        Serial.print(" ");
+        Time::Year = ptm->tm_year + 1900;
+        //Serial.print("Year: ");
+        Serial.println(Time::Year);
+        
         Time::hour = h;
         Time::minute = m;
         Grid::setTime(Time::hour, Time::minute);

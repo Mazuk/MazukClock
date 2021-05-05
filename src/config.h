@@ -15,7 +15,7 @@
  * Version
  */
 #ifndef VERSION
-#define VERSION "V2.70"
+#define VERSION "V2.71"
 #endif
 
  /* Grid rows
@@ -70,9 +70,10 @@
  * -------
  * 0: before
  * 1: after
+ * 2: not used
  */
 #ifndef GRID_SINGLE_MINUTES
-#define GRID_SINGLE_MINUTES 1
+#define GRID_SINGLE_MINUTES 2
 #endif
 
  /* Data PIN, where the LED strip is connected to */

@@ -170,23 +170,24 @@ void Grid_de_DE::setTime(int hour, int minute) {
 			animation::animation_select(WEATHER);
 	}
 	// single minutes
-	if (singleMinute >= 1) {
-		Led::ids[2].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
+	if (GRID_SINGLE_MINUTES == 0) {
+		if (singleMinute >= 1) {
+			Led::ids[2].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
 
-	}
-	if (singleMinute >= 2) {
-		Led::ids[4].setRGB(Config::color_m2.r, Config::color_m2.g, Config::color_m2.b);
-	
-	}
-	if (singleMinute >= 3) {
-		Led::ids[6].setRGB(Config::color_m3.r, Config::color_m3.g, Config::color_m3.b);
+		}
+		if (singleMinute >= 2) {
+			Led::ids[4].setRGB(Config::color_m2.r, Config::color_m2.g, Config::color_m2.b);
 
-	}
-	if (singleMinute >= 4) {
-		Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+		}
+		if (singleMinute >= 3) {
+			Led::ids[6].setRGB(Config::color_m3.r, Config::color_m3.g, Config::color_m3.b);
 
+		}
+		if (singleMinute >= 4) {
+			Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+
+		}
 	}
-  
   FastLED.setBrightness(Config::brightness * 255);
   FastLED.show();
 }
