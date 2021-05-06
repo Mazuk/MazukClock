@@ -120,7 +120,7 @@ void Time::loop() {
         ticker::Numbers(60 - s);
     }
     else {//blink the last 5 sec the minute 4 led before changing time
-        if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
+        if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO && GRID_SINGLE_MINUTES > 0)) {
             if (s % 2 == 0)
                 Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
             else
