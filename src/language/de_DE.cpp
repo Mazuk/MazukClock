@@ -209,11 +209,11 @@ void Grid_de_DE::setDingDong(int dingdong, int r, int g, int b) {
 		delay(500);
 		//set ding
 			
-		for (int row = 0; row < 11; row++) {
+		for (int row = 0; row < GRID_ROWS; row++) {
 			for (int col = 0; col < 12; col++) {
 				if (Grid_de_DE::ding[row][col] >= 0) {
 					//Led::ids[Led::getLedId(Grid_de_DE::ding[row][col])].setRGB(r, g, b);
-					w = Led::getLedId(col + GRID_ROWS * row);
+					w = Led::getLedId(col + GRID_COLS * row);
 					Led::ids[w] = color[Grid_de_DE::ding[row][col]];
 				}
 			}

@@ -41,3 +41,6 @@ V2.71 Bug fix in end of day countdown
 V2.72 Fixed in case of only 10 row no minute display. set config GRID_SINGLE_MINUTES 2 not used
 Fixed bug when no RTC connected to get date from NTP
 V2.73 add to config to enable the GRAD letters USE_GRAD 
+V2.74 fix also not using the minute 4 for the last 5 sec blinking before change when no GRID_SINGLE_MINUTES
+7.May 2021
+V2.75 FIX for 10 rows matrix

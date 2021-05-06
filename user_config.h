@@ -36,13 +36,22 @@
 #define GRID_LANGUAGE de_DE
 
 /* Position of single minute LEDs
- *  
+ *
  * Options
  * -------
  * 0: before
  * 1: after
+ * 2: not used
  */
-#define GRID_SINGLE_MINUTES 1
+#define GRID_SINGLE_MINUTES 0
+/* GRID has the GRAD letters between the minutes
+  *
+  * Options
+  * -------
+  * 0: NO
+  * 1: ENABLED
+  */
+#define USE_GRAD 0
 
 /* Data PIN, where the LED strip is connected to */
 /* Don't use D4 or change setup status LED OFF in main sketch */

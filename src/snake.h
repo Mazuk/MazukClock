@@ -3,7 +3,7 @@
 #include <FastLED.h>
 
 #define X_MAX 11
-#define Y_MAX 11
+
 
 #define GAME_DELAY 3  // *attime in ms
 

@@ -108,7 +108,7 @@ void Snake::updateGame(byte place) //Updates the snake
                         LeftPlayground = 1;
                     break;
                 case DIRECTION_DOWN:
-                    if (head.y < Y_MAX - 1) 
+                    if (head.y < GRID_ROWS - 1) 
                         head.y++;
                     else 
                         LeftPlayground = 1;
@@ -165,7 +165,7 @@ void Snake::KI() {
         #endif
     }
 
-    else if (head.y < Snake::ledmatrix[PositionFood][2] && Crash(3) == false && head.y < Y_MAX) {
+    else if (head.y < Snake::ledmatrix[PositionFood][2] && Crash(3) == false && head.y < GRID_ROWS) {
         userDirection = DIRECTION_DOWN;
         #ifdef DEBUG
             Serial.println("Set down");
@@ -195,7 +195,7 @@ void Snake::KI() {
         }
     }
     else if (Snake::ledmatrix[PositionFood][2] == head.y) {
-        if (head.y < Y_MAX - 1 && Crash(3) == false) {
+        if (head.y < GRID_ROWS - 1 && Crash(3) == false) {
             userDirection = DIRECTION_DOWN;
             #ifdef DEBUG
                 Serial.println("Set food to Y down");
@@ -210,7 +210,7 @@ void Snake::KI() {
     }
 
     else {
-        if (head.y < Y_MAX - 1 && Crash(3) == false) {
+        if (head.y < GRID_ROWS - 1 && Crash(3) == false) {
             userDirection = DIRECTION_DOWN;
             #ifdef DEBUG
                 Serial.println("ELSE - down");
@@ -360,7 +360,7 @@ bool Snake::isCollision()
  */
 void Snake::fill_ledmatrix_buff(int* display) {
     for (byte x = 0; x < X_MAX; x++) {
-        for (byte y = 0; y < Y_MAX; y++) {
+        for (byte y = 0; y < GRID_ROWS; y++) {
             tempctr = animation::matrix[y][x];
             if (display[Led::getLedId(tempctr)] == 1)
                 Snake::ledmatrix[tempctr][0] = 1;  

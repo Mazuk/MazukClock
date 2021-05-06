@@ -15,7 +15,7 @@
  * Version
  */
 #ifndef VERSION
-#define VERSION "V2.73"
+#define VERSION "V2.75"
 #endif
 
  /* Grid rows
@@ -73,7 +73,7 @@
  * 2: not used
  */
 #ifndef GRID_SINGLE_MINUTES
-#define GRID_SINGLE_MINUTES 2
+#define GRID_SINGLE_MINUTES 0
 #endif
 
  /* GRID has the GRAD letters between the minutes
