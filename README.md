@@ -40,3 +40,4 @@ V2.71 Bug fix in end of day countdown
 6.May 2021
 V2.72 Fixed in case of only 10 row no minute display. set config GRID_SINGLE_MINUTES 2 not used
 Fixed bug when no RTC connected to get date from NTP
+V2.73 add to config to enable the GRAD letters USE_GRAD 

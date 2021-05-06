@@ -186,6 +186,8 @@ CRGB weather::GetTempColor(float temperature) {
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void weather::SetGrad(bool state) { //true on, false off
+    if (USE_GRAD == 0)
+        return;
     for (int i = 1; i < 8; i += 2) {
         if (state)
             Led::ids[i].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);

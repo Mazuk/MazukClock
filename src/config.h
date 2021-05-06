@@ -15,7 +15,7 @@
  * Version
  */
 #ifndef VERSION
-#define VERSION "V2.72"
+#define VERSION "V2.73"
 #endif
 
  /* Grid rows
@@ -74,6 +74,17 @@
  */
 #ifndef GRID_SINGLE_MINUTES
 #define GRID_SINGLE_MINUTES 2
+#endif
+
+ /* GRID has the GRAD letters between the minutes
+  *
+  * Options
+  * -------
+  * 0: NO
+  * 1: ENABLED
+  */
+#ifndef USE_GRAD
+#define USE_GRAD 0
 #endif
 
  /* Data PIN, where the LED strip is connected to */
