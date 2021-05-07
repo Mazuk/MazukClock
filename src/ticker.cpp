@@ -77,8 +77,8 @@ void ticker::DisplayIP(int speed) {
  */
 void ticker::DisplayTicker(String textIN, int speed, CRGB myColor) {
 
-    char text[55];
-    for (int i = 0; i < 50; i++)
+    char text[100];
+    for (int i = 0; i < 100; i++)
         text[i] = 0;
     strcpy(text, textIN.c_str());
 
@@ -148,8 +148,11 @@ void ticker::Utf8Filter(char* text) {
         }
         j++;
     }
-    text[j] = 0x00;
-    text[j + 1] = 0x00; //two additional scrolls in ticker
+    //clear remaining characters due UTF conversion
+    while (j < 100) {
+        text[j] = 0x00;
+        j++;
+    }
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------
  * Ticker variable parser and replace var with content

@@ -78,6 +78,10 @@ void Time::loop() {
             s = 0;
             m = 5 * (char)random(12); // only 5 min steps
             h = (char)random(12);
+            Time::weekDay = weekDays[(char)random(7)];
+            Time::Day = 1 + (char)random(30);
+            Time::MonthName = months[(char)random(12)];
+            Time::Year = 2000 + (char)random(100);
         }
         Time::minute = m + s;
         Time::hour = h;
@@ -86,6 +90,15 @@ void Time::loop() {
             Serial.print(Time::hour);
             Serial.print(":");
             Serial.println(Time::minute); 
+            Serial.print(Time::weekDay);
+            Serial.print(" ");
+            Serial.print(Time::Day);
+            Serial.print(". ");
+            Serial.print(Time::MonthName);
+            Serial.print(" ");
+            Serial.println(Time::Year);
+            
+
         #endif
         Grid::setTime(Time::hour, Time::minute);
         return;
