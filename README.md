@@ -45,3 +45,5 @@ V2.74 fix also not using the minute 4 for the last 5 sec blinking before change 
 7.May 2021
 V2.75 FIX for 10 rows matrix
 V2.76 add random date to DEMO mode. Clear remaining chr in ticker due UTF conversion
+10.May 2021
+V2.77 FIX last commit didn't take the correct animation led calculation 
