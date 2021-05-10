@@ -169,8 +169,45 @@ void Grid_de_DE::setTime(int hour, int minute) {
 		if (m % Config::WX == 0)
 			animation::animation_select(WEATHER);
 	}
-	// single minutes
+	// single minutes 0: before, led 0,1,2,3
 	if (GRID_SINGLE_MINUTES == 0) {
+		if (singleMinute >= 1) {
+			Led::ids[0].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
+
+		}
+		if (singleMinute >= 2) {
+			Led::ids[1].setRGB(Config::color_m2.r, Config::color_m2.g, Config::color_m2.b);
+
+		}
+		if (singleMinute >= 3) {
+			Led::ids[2].setRGB(Config::color_m3.r, Config::color_m3.g, Config::color_m3.b);
+
+		}
+		if (singleMinute >= 4) {
+			Led::ids[3].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+
+		}
+	}
+	// single minutes after, led GRID_ROWS * GRID_COLS + 1,2,3,4
+	else if (GRID_SINGLE_MINUTES == 1) {
+		if (singleMinute >= 1) {
+			Led::ids[NUM_LEDS - 4].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
+
+		}
+		if (singleMinute >= 2) {
+			Led::ids[NUM_LEDS - 3].setRGB(Config::color_m2.r, Config::color_m2.g, Config::color_m2.b);
+
+		}
+		if (singleMinute >= 3) {
+			Led::ids[NUM_LEDS - 2].setRGB(Config::color_m3.r, Config::color_m3.g, Config::color_m3.b);
+
+		}
+		if (singleMinute >= 4) {
+			Led::ids[NUM_LEDS - 1].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+		}
+	} 
+	// single minutes new grid layout de_DE_s1 11x11 ,LED 2,4,6,8 
+	else if (GRID_SINGLE_MINUTES == 2) {
 		if (singleMinute >= 1) {
 			Led::ids[2].setRGB(Config::color_m1.r, Config::color_m1.g, Config::color_m1.b);
 
@@ -285,7 +322,7 @@ void Grid_de_DE::setBall(int dingdong) {
 		//count row 0 to 5 and back to 0
 		for (int row = 0; row >= 0; row += inc) {
 			i = 0;
-			while (Grid_de_DE::ball[row][i] >= 0) {
+			while (Grid_de_DE::ball[row][i] >= 0 && Grid_de_DE::ball[row][i] < NUM_LEDS) {
 				Led::ids[Grid_de_DE::ball[row][i]]=color[row];
 				i++;
 			}
@@ -294,7 +331,7 @@ void Grid_de_DE::setBall(int dingdong) {
 			if (row == 6 || inc == -1) {//reverse loop 
 				inc = -1;
 				i = 0;
-				while (Grid_de_DE::ball[row][i] >= 0) {
+				while (Grid_de_DE::ball[row][i] >= 0 && Grid_de_DE::ball[row][i] < NUM_LEDS) {
 					Led::ids[Grid_de_DE::ball[row][i]].setRGB(0, 0, 0);
 					i++;
 				}

@@ -46,14 +46,10 @@ void Time::setup() {
       rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
   else {
-      Serial.println("RTC initialized! Time: ");
       DateTime now = rtc.now();
-      Serial.print(now.hour(),DEC);
-      Serial.print(':');
-      Serial.print(now.minute(),DEC);
-      Serial.print(':');
-      Serial.print(now.second(),DEC);
-      Serial.println();
+      char buf[30];
+      sprintf(buf, "RTC initialized! Time:  %02d:%02d:%02d", now.hour(), now.minute(), now.second());
+      Serial.println(buf);
       Time::RTCdisable = false;
   }
  
@@ -86,7 +82,7 @@ void Time::loop() {
         Time::minute = m + s;
         Time::hour = h;
         s++;
-        #ifdef DEBUG
+        #ifdef DEBUGTIME
             Serial.print(Time::hour);
             Serial.print(":");
             Serial.println(Time::minute); 
@@ -97,8 +93,6 @@ void Time::loop() {
             Serial.print(Time::MonthName);
             Serial.print(" ");
             Serial.println(Time::Year);
-            
-
         #endif
         Grid::setTime(Time::hour, Time::minute);
         return;
@@ -123,10 +117,11 @@ void Time::loop() {
             Serial.println("RTC use");
         NTPdisable = true;   
     }
-    else { // set Time to 12:00 to indicate no NTP update
-        h = 12;
-        m = 0;
-    }
+    //remove not to get jumping time in case of no NTP server available & no RTC
+    //else { // set Time to 12:00 to indicate no NTP update
+    //    h = 12;
+    //    m = 0;
+    //}
 
     //Count down at each day end
     if (m == 59 && h == 23 && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
@@ -150,40 +145,41 @@ void Time::loop() {
         }
         //set sync RTC to NTP time every minute only if NTP is available
         if (!Time::RTCdisable && !NTPdisable) {
-            Serial.print("NTP Time: ");
-            Serial.println(Time::ntpClient.getFormattedTime());
             rtc.adjust(DateTime(Time::ntpClient.getEpochTime()));
-            Serial.print("RTC Sync Time: ");
-            DateTime now = rtc.now();
-            Serial.print(now.hour(), DEC);
-            Serial.print(':');
-            Serial.print(now.minute(), DEC);
-            Serial.print(':');
-            Serial.print(now.second(), DEC);
-            Serial.println();
+            #ifdef DEBUGTIME
+                Serial.print("NTP Time: ");
+                Serial.println(Time::ntpClient.getFormattedTime());
+                DateTime now = rtc.now();
+                char buf[25];
+                sprintf(buf, "RTC Sync Time: %02d:%02d:%02d", now.hour(), now.minute(), now.second());
+                Serial.println(buf);
+            #endif
         }
         //Get a time structure
         Time::weekDay = weekDays[Time::ntpClient.getDay()];
         struct tm* ptm = gmtime((time_t*)&epochTime);
 
         Time::Day = ptm->tm_mday;
-        //Serial.print("Month day: ");
-        Serial.print(Time::Day);
-        Serial.print(". ");
         Time::Month = ptm->tm_mon + 1;
-        //Serial.print("Month: ");
-        //Serial.println(currentMonth);
-
         Time::MonthName = months[Month - 1];
-        //Serial.print("Month name: ");
-        Serial.print(Time::MonthName);
-        Serial.print(" ");
         Time::Year = ptm->tm_year + 1900;
-        //Serial.print("Year: ");
-        Serial.println(Time::Year);
-        
         Time::hour = h;
         Time::minute = m;
+        #ifdef DEBUGTIME
+            Serial.print("Month day: ");
+            Serial.print(Time::Day);
+            Serial.print(". ");   
+            Serial.print("Month: ");
+            Serial.println(Month); 
+            Serial.print("Month name: ");
+            Serial.print(Time::MonthName);
+            Serial.print(" ");
+            Serial.print("Year: ");
+            Serial.println(Time::Year);
+            char buf[15];
+            sprintf(buf, "Time: %02d:%02d", Time::hour, Time::minute);
+            Serial.println(buf);
+        #endif
         Grid::setTime(Time::hour, Time::minute);
 
         if (Config::automatic_timezone) {

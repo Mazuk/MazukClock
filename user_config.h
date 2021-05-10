@@ -33,17 +33,19 @@
  * 1: de_DE:     german
  * 2: de_DE_alt: german alternative
  */
+//other grid language is supported by the app. Do not change here!
 #define GRID_LANGUAGE de_DE
 
 /* Position of single minute LEDs
  *
  * Options
  * -------
- * 0: before
- * 1: after
- * 2: not used
+ * 0: before, led 0,1,2,3
+ * 1: after, led GRID_ROWS * GRID_COLS + 1,2,3,4
+ * 2: new grid LED 2,4,6,8 
+ * 3: not used
  */
-#define GRID_SINGLE_MINUTES 0
+#define GRID_SINGLE_MINUTES 2
 /* GRID has the GRAD letters between the minutes
   *
   * Options

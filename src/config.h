@@ -7,6 +7,7 @@
 #include "types.h"
 
 //#define DEBUG
+#define DEBUGTIME
 
 /***********************************************
  * CONFIG START
@@ -15,7 +16,7 @@
  * Version
  */
 #ifndef VERSION
-#define VERSION "V2.77"
+#define VERSION "V2.78"
 #endif
 
  /* Grid rows

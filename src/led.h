@@ -3,7 +3,7 @@
 
 #include <FastLED.h>
 
-#define NUM_LEDS ((GRID_ROWS * GRID_COLS))
+#define NUM_LEDS ((GRID_ROWS * GRID_COLS) + 4)
 
 
 class Led {

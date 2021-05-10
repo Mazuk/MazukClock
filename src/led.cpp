@@ -19,7 +19,9 @@ int Led::getLedId(int id) {
   } else if(GRID_FIRST == 0) {
     led = (row % 2 == 1) ? ((row * GRID_COLS) + col) : ((row + 1) * GRID_COLS) - col - 1;
   }
-
+  if (GRID_SINGLE_MINUTES == 0) {
+      led += 4;
+  }
   return led;
 }
 
