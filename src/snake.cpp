@@ -65,7 +65,7 @@ void Snake::Food()
 {
     int t = 0;
     PositionFood = -1;
-    for (int i = 0; i < NUM_LEDS; i++) { // Check where is the next food
+    for (int i = 0; i < NUM_LEDS-4; i++) { // Check where is the next food
         if (Snake::ledmatrix[i][0] == 1) {
             if (t == 0) {
                 t = 1;

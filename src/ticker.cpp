@@ -76,17 +76,18 @@ void ticker::DisplayIP(int speed) {
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void ticker::DisplayTicker(String textIN, int speed, CRGB myColor) {
-
     char text[100];
-    for (int i = 0; i < 100; i++)
+    char text_display[100];
+    for (int i = 0; i < 100; i++) {
         text[i] = 0;
+        text_display[i] = 0;
+    }
     strcpy(text, textIN.c_str());
-
     Utf8Filter(text);//remove UTF8 and change to ASCII extend
-    strcpy(text, TickerCommand(text).c_str()); //replace variable with data
+    strcpy(text_display, TickerCommand(text).c_str()); //replace variable with data
     int i = 0, ii = 0;
     CRGB color;
-    int StringLength = strlen(text) + 2; // to scroll till end
+    int StringLength = strlen(text_display) + 2; // to scroll till end
     for (int j = 0; j <= StringLength * 6; j++) {
         // shift all pixels to left
         for (int b = 0; b < 10; b++) {
@@ -98,7 +99,7 @@ void ticker::DisplayTicker(String textIN, int speed, CRGB myColor) {
 
         if (i < 5) {
             for (int h = 0; h < 8; h++) {
-                if (font_7x5[text[ii]][i] & (1 << h)) {
+                if (font_7x5[text_display[ii]][i] & (1 << h)) {
                     Led::ids[Led::getLedId(animation::matrix[h + 1][10])].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
                     Led::ids[Led::getLedId(animation::matrix[h + 1][10])] = myColor;
                 }
@@ -134,7 +135,7 @@ void ticker::Utf8Filter(char* text) {
     int i = 0;
     int j = 0;
     while (text[i] != 0) {
-        if ((unsigned char)text[i] <= 127)
+        if ((unsigned char)text[i] <= char(127))
         {
             text[j] = text[i];
             i++;
@@ -150,7 +151,7 @@ void ticker::Utf8Filter(char* text) {
     }
     //clear remaining characters due UTF conversion
     while (j < 100) {
-        text[j] = 0x00;
+        text[j] = char(0);
         j++;
     }
 }
@@ -161,7 +162,7 @@ void ticker::Utf8Filter(char* text) {
 String ticker::TickerCommand(char* text) {
     String content;
     int i = 0;
-    while (text[i] != 0) {
+    while (text[i] != char(0)) {
         if (text[i] == '$') {
             if (toupper(text[i + 1]) == 'D') { //Date
                 content += String(Time::Day) + "." + Time::MonthName;
@@ -176,19 +177,19 @@ String ticker::TickerCommand(char* text) {
                 i++;
             }
             else if (text[i + 1] == 'h') { //Heart)
-                content += "\x95";
+                content += char(149);// "\x95";
                 i++;
             }
             else if (text[i + 1] == 'H') { //Big Heart)
-                content += "\x96";
+                content += char(150);// "\x96";
                 i++;
             }
             else if (text[i + 1] == 'f') { //Heart filled)
-                content += "\x97";
+                content += char(151);// "\x97";
                 i++;
             }
             else if (text[i + 1] == 'F') { //Big Heart filled)
-                content += "\x98";
+                content += char(152);// "\x98";
                 i++;
             }
         }

@@ -241,7 +241,7 @@ void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to o
     char idx;
     int j;
     int fade = 256 - (Config::atime * 2);
-    for (int i = 0; i < NUM_LEDS-4; i++) {
+    for (int i = 0; i < NUM_LEDS - 4; i++) {
         if (dir) {
             idx = LED[i];
         }
@@ -256,8 +256,8 @@ void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to o
                     Led::ids[Led::getLedId(LED[j])].fadeToBlackBy(fade);
             }
             else {
-                if (animation::ledmatrix[Led::getLedId(LED[NUM_LEDS  -4 - j - 1])] == 0)
-                    Led::ids[Led::getLedId(LED[NUM_LEDS - 4- j - 1])].fadeToBlackBy(fade);
+                if (animation::ledmatrix[Led::getLedId(LED[NUM_LEDS  - 4 - j - 1])] == 0)
+                    Led::ids[Led::getLedId(LED[NUM_LEDS - 4 - j - 1])].fadeToBlackBy(fade);
             }
         }
 
@@ -273,7 +273,7 @@ void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to o
 
     //fade all out after reaching the end
     for (int k = 0; k < Config::atime / 5; k++) {
-        for (int j = 0; j < NUM_LEDS; j++) {
+        for (int j = 0; j < NUM_LEDS - 4; j++) {
             if (dir) {
                 if (animation::ledmatrix[Led::getLedId(LED[j])] == 0)
                     Led::ids[Led::getLedId(LED[j])].fadeToBlackBy(fade);
@@ -810,7 +810,7 @@ void animation::RainDisplay() { // Step through each location in the Matrix Disp
  */
 void animation::TypeWriter() { // Step through each location in the Matrix Display Array Data in LED Matrix
 
-    for (int l = 0; l < NUM_LEDS; l++) {
+    for (int l = 0; l < NUM_LEDS - 4; l++) {
         Led::ids[Led::getLedId(l)] = CRGB::Blue;
         FastLED.show();
         delay(Config::atime);
@@ -843,7 +843,7 @@ void animation::RandomLetters() {
     int ran;
 
     //define pool
-    for (i = 0; i < NUM_LEDS; i++) {
+    for (i = 0; i < NUM_LEDS-4; i++) {
         randompool[i] = i;
     }
     randompool[NUM_LEDS-4] = -1; //define end of array

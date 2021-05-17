@@ -103,8 +103,10 @@ void Time::loop() {
         m = Time::ntpClient.getMinutes();
         s = Time::ntpClient.getSeconds();
         epochTime = Time::ntpClient.getEpochTime();
-        if(NTPdisable)
-            Serial.println("NTP use");
+        if (NTPdisable) {
+            Serial.print("NTP use: ");
+            Serial.println(Config::ntp);
+        }
         NTPdisable = false;
     }
     //Use RTC time if no NTP time (no Wifi?)
@@ -118,7 +120,7 @@ void Time::loop() {
         NTPdisable = true;   
     }else
         Serial.println("No time update!");
-    //remove not to get jumping time in case of no NTP server available & no RTC
+    //removed not to get jumping time in case of no NTP server available & no RTC
     //else { // set Time to 12:00 to indicate no NTP update
     //    h = 12;
     //    m = 0;

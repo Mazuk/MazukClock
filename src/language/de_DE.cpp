@@ -322,7 +322,7 @@ void Grid_de_DE::setBall(int dingdong) {
 		//count row 0 to 5 and back to 0
 		for (int row = 0; row >= 0; row += inc) {
 			i = 0;
-			while (Grid_de_DE::ball[row][i] >= 0 && Grid_de_DE::ball[row][i] < NUM_LEDS) {
+			while (Grid_de_DE::ball[row][i] >= 0 && Grid_de_DE::ball[row][i] < NUM_LEDS-4) {
 				Led::ids[Grid_de_DE::ball[row][i]]=color[row];
 				i++;
 			}
@@ -331,7 +331,7 @@ void Grid_de_DE::setBall(int dingdong) {
 			if (row == 6 || inc == -1) {//reverse loop 
 				inc = -1;
 				i = 0;
-				while (Grid_de_DE::ball[row][i] >= 0 && Grid_de_DE::ball[row][i] < NUM_LEDS) {
+				while (Grid_de_DE::ball[row][i] >= 0 && Grid_de_DE::ball[row][i] < NUM_LEDS-4) {
 					Led::ids[Grid_de_DE::ball[row][i]].setRGB(0, 0, 0);
 					i++;
 				}

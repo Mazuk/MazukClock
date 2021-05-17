@@ -32,7 +32,7 @@ void UtcOffset::updateLocalizedUtcOffset() {
       Serial.println(utcOffset + dstOffset);
 
       Config::timezone = utcOffset + dstOffset;
-      Config::save();
+      //Config::save();
     }
 
     return;

@@ -44,7 +44,7 @@ void Wifi::setup() {
 	}
 	
 	if (Config::DNS_name != "") {
-		if (MDNS.begin(Config::DNS_name)) { // Start the mDNS responder for  http://mazukclock
+		if (MDNS.begin(Config::DNS_name)) { // Start the mDNS responder for  http://wordclock
 			Serial.print("mDNS responder started: ");
 			Serial.println(Config::DNS_name);
 			Wifi::mDNSsetup();

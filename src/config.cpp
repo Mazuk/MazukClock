@@ -22,7 +22,7 @@ void Config::save() {
   Time::ntpClient.setPoolServerName(Config::ntp.c_str());
   Time::ntpClient.setTimeOffset(Config::timezone);
 
-  StaticJsonDocument<1536> doc;
+  StaticJsonDocument<1530> doc;
   StaticJsonDocument<256> animationBuff;
   
   doc["color_bg_r"] = Config::color_bg.r;
@@ -176,7 +176,7 @@ void Config::load() {
   }else
      Serial.println("Load config.");
   
-  StaticJsonDocument<1536> doc;
+  StaticJsonDocument<1530> doc;
   StaticJsonDocument<256> animationBuff;
   deserializeJson(doc, file);
 #ifdef DEBUG
