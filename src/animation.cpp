@@ -241,12 +241,12 @@ void animation::CircleDisplay(bool dir) { // Running LED chaser from inside to o
     char idx;
     int j;
     int fade = 256 - (Config::atime * 2);
-    for (int i = 0; i < NUM_LEDS; i++) {
+    for (int i = 0; i < NUM_LEDS-4; i++) {
         if (dir) {
             idx = LED[i];
         }
         else
-            idx = LED[NUM_LEDS - i - 1]; //out2in reverse the array scan -1 because 0-120
+            idx = LED[NUM_LEDS - 4 - i - 1]; //out2in reverse the array scan -1 because 0-120
         //Led::ids[Led::getLedId(idx)].setRGB(Config::color_mx.r, Config::color_mx.g, Config::color_mx.b);
         Led::ids[Led::getLedId(idx)] = color[i % 7];
 

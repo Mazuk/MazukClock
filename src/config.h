@@ -16,7 +16,7 @@
  * Version
  */
 #ifndef VERSION
-#define VERSION "V2.78"
+#define VERSION "V2.79"
 #endif
 
  /* Grid rows
