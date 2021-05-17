@@ -116,7 +116,8 @@ void Time::loop() {
         if(!NTPdisable)
             Serial.println("RTC use");
         NTPdisable = true;   
-    }
+    }else
+        Serial.println("No time update!");
     //remove not to get jumping time in case of no NTP server available & no RTC
     //else { // set Time to 12:00 to indicate no NTP update
     //    h = 12;
@@ -128,11 +129,29 @@ void Time::loop() {
         ticker::Numbers(60 - s);
     }
     else {//blink the last 5 sec the minute 4 led before changing time
-        if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO) && GRID_SINGLE_MINUTES == 0) {
-            if (s % 2 == 0)
-                Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
-            else
-                Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+        if (s > 53 && m % 5 == 4 && s != Time::second && !(DND::active(hour, minute) && Config::animation_set != DEMO)) {
+            if (s % 2 == 0) {
+                if (GRID_SINGLE_MINUTES == 0) {
+                    Led::ids[3].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
+                }
+                else if (GRID_SINGLE_MINUTES == 1) {
+                    Led::ids[NUM_LEDS - 4 + 3].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
+                }
+                else if (GRID_SINGLE_MINUTES == 2) {
+                    Led::ids[8].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
+                }
+            }
+            else {
+                if (GRID_SINGLE_MINUTES == 0) {
+                    Led::ids[3].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+                }
+                else if (GRID_SINGLE_MINUTES == 1) {
+                    Led::ids[NUM_LEDS - 4 + 3].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+                }
+                else if (GRID_SINGLE_MINUTES == 2) {
+                    Led::ids[8].setRGB(Config::color_m4.r, Config::color_m4.g, Config::color_m4.b);
+                }
+            }
             Time::second = s;
             FastLED.show();
 
@@ -181,10 +200,11 @@ void Time::loop() {
             Serial.println(buf);
         #endif
         Grid::setTime(Time::hour, Time::minute);
-
-        if (Config::automatic_timezone) {
+        
+        if (Config::automatic_timezone && !NTPdisable) {
             UtcOffset::updateLocalizedUtcOffset();
             Time::ntpClient.setTimeOffset(Config::timezone);
         }
+       
   }
 }

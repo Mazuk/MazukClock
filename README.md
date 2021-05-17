@@ -52,3 +52,4 @@ V2.77 FIX last commit didn't take the correct animation led calculation
 17.May 2021
 V2.78 Bug fixes for 10 rows and the minute LED. Fallback to 12:00 in case of no NTP connection removed
 V2.79 Bug fix animation spiral
+V2.80 If no NTP don't set auto TZ. Set correct blinking of the 4 minute LED, 5 sec before change
