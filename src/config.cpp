@@ -170,7 +170,13 @@ void Config::load() {
   File file = SPIFFS.open("/wordclock_config.json", "r");
 
   if(!file) {
-    Serial.println("Failed to open config file.");
+    Serial.println("Failed to open config file. Will try to make");
+    File file = SPIFFS.open("/wordclock_config.json", "w");
+
+    if (!file) {
+        Serial.println("Can't open wordclock_config.json for writing");
+        //return;
+    }
     Config::save();
     return;
   }else

@@ -25,7 +25,7 @@
 #define GAME_STATE_INIT    3
 #define GAME_STATE_PAUSED  4
 
-#define MAX_TAIL_LENGTH 32
+#define MAX_TAIL_LENGTH 16
 #define MIN_TAIL_LENGTH 2
 
 

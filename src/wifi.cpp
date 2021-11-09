@@ -21,7 +21,7 @@ void Wifi::setup() {
 	WiFi.hostname("WordClock");
 	WiFi.mode(WIFI_STA);
 	WiFiManager wifiManager;
-	wifiManager.setTimeout(30);
+	wifiManager.setTimeout(60);
 	//wifiManager.autoConnect("WordClock");
 
 	if (!wifiManager.autoConnect("WordClock")) {

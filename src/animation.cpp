@@ -150,7 +150,7 @@ void animation::animation_select(int ticker) {
         if (animation::MovinRainbowSet != true) {
             animation::SetDisplay();
             FastLED.show();
-            delay(1000);
+            delay(50);
         }
         return;
         break;

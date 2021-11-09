@@ -25,7 +25,7 @@ int Snake::PositionFood = 0; //Food position
  *-------------------------------------------------------------------------------------------------------------------------------------------
  */
 void Snake::toggleLed(int x, int y, int type, int place)
-{
+{ 
     if (x < 0 || y < 0)
         return;
 
